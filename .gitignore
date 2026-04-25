@@ -1,0 +1,33 @@
+# Dependencies
+scaffol/node_modules/
+
+# Environment variables (contains API keys and secrets)
+scaffol/.env
+scaffol/.env.local
+scaffol/.env.*.local
+
+# Build output
+scaffol/dist/
+scaffol/dist-ssr/
+
+# Vite cache
+scaffol/.vite/
+
+# Data files (large proprietary datasets)
+scaffol/data/
+
+# Editor and OS artifacts
+scaffol/.DS_Store
+scaffol/Thumbs.db
+scaffol/*.swp
+scaffol/*.swo
+scaffol/.idea/
+scaffol/.vscode/settings.json
+
+# Logs
+scaffol/npm-debug.log*
+scaffol/yarn-debug.log*
+scaffol/yarn-error.log*
+
+# Claude Code worktrees
+scaffol/.claude/worktrees/
