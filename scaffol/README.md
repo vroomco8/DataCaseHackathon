@@ -10,7 +10,7 @@
 
 **Global Philanthropy Intelligence** transforms 130,000+ OECD development finance records into a living, explorable map. Filter by sector, time period, donor country, or recipient region and every chart, stat, and country color updates instantly — letting you move from a broad overview to a precise answer in seconds.
 
-Built with React, Mapbox GL JS, and Recharts. No backend required.
+Built with React, Mapbox GL JS, Papaparse, and Recharts. No backend required.
 
 ---
 
@@ -25,7 +25,6 @@ The central map colors every country by the volume of philanthropy it has **rece
 - **Received / Donated toggle** — flip the map between showing where money flows *to* vs. where it originates *from*
 - **Hover tooltip** — hover any country to see its name and total funding at a glance
 - **Click for Country Detail** — click any country to open a full breakdown panel (see below)
-- Rotation is locked so the map always stays north-up
 
 ---
 
@@ -37,7 +36,7 @@ Five controls that filter every element of the dashboard simultaneously:
 
 | Filter | What it does |
 |---|---|
-| **Year From / Year To** | Narrow the time window; data spans 2018–2023 |
+| **Year From / Year To** | Narrow the time window; data spans 2020–2023 |
 | **Sector** | Isolate a single funding sector (e.g. *Emergency Response*, *General Environment Protection*, *Health*) |
 | **Donor Country** | Show only grants originating from a specific country (e.g. *United Kingdom*, *United States*) |
 | **Recipient Region** | Restrict to a macro-region (e.g. *Africa*, *Asia*, *Europe*) |
@@ -139,7 +138,7 @@ A bar chart beside the trend view breaks total funding down by **macro-region** 
 
 All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.csv`), containing ~130,000 grant-level disbursement records across:
 
-- **Years:** 2018 – 2023
+- **Years:** 2020 – 2023
 - **Sectors:** Health, Education, Environment, Emergency Response, and more
 - **Geographies:** 150+ recipient countries across all continents
 - **Metrics:** Deflated USD disbursements and commitments
@@ -185,7 +184,6 @@ Open [http://localhost:5173](http://localhost:5173). The dashboard will stream a
 | Map | Mapbox GL JS 3 (choropleth via feature-state) |
 | Charts | Recharts (BarChart, AreaChart, PieChart) |
 | Data parsing | PapaParse (streaming CSV) |
-| Styling | Vanilla CSS with custom properties (dark theme) |
 
 ---
 
