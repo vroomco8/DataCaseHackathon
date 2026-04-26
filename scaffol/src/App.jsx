@@ -264,6 +264,8 @@ export default function App() {
       center: [10, 20],
       zoom: 1.5,
       projection: 'naturalEarth',
+      dragRotate: false,
+      touchZoomRotate: false,
     })
 
     mapRef.current = map
