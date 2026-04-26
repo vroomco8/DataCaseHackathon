@@ -2,7 +2,7 @@
 
 > An interactive dashboard for policymakers and foundation leaders to explore global development funding patterns — built on OECD disbursement data.
 
-![Dashboard Overview](docs/images/dashboard-overview.png)
+![Dashboard Overview]()
 
 ---
 
@@ -14,13 +14,42 @@ Built with React, Mapbox GL JS, Papaparse, and Recharts. No backend required.
 
 ---
 
+## Project Structure
+
+```
+scaffol/
+├── src/
+│   ├── App.jsx          # Main dashboard — all state, filters, and layout
+│   ├── App.css          # Dark theme styles
+│   └── utils/
+│       └── countryToIso.js  # Country name → ISO-3 mapping for map coloring
+├── data/                # (gitignored) OECD CSV + GeoJSON
+├── public/
+├── index.html
+├── vite.config.js       # Custom middleware to serve data/ directory
+└── .env.example         # Token template
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + Vite |
+| Map | Mapbox GL JS 3 (choropleth via feature-state) |
+| Charts | Recharts (BarChart, AreaChart, PieChart) |
+| Data parsing | PapaParse (streaming CSV) |
+
+---
+
 ## Features
 
 ### Interactive Choropleth Map
 
 The central map colors every country by the volume of philanthropy it has **received** or **donated**, on a logarithmic teal gradient. The map responds in real time to every filter you apply.
 
-![Choropleth Map](docs/images/map-choropleth.png)
+![Choropleth Map]()
 
 - **Received / Donated toggle** — flip the map between showing where money flows *to* vs. where it originates *from*
 - **Hover tooltip** — hover any country to see its name and total funding at a glance
@@ -30,7 +59,7 @@ The central map colors every country by the volume of philanthropy it has **rece
 
 ### Filter Bar
 
-![Filter Bar](docs/images/filter-bar.png)
+![Filter Bar]()
 
 Five controls that filter every element of the dashboard simultaneously:
 
@@ -48,7 +77,7 @@ A **Clear Filters** button appears whenever any filter is active, resetting ever
 
 ### KPI Header Cards
 
-![KPI Cards](docs/images/kpi-cards.png)
+![KPI Cards]()
 
 Four live statistics sit in the header and update as filters change:
 
@@ -61,27 +90,27 @@ Four live statistics sit in the header and update as filters change:
 
 ### Top Donors Panel
 
-![Top Donors Chart](docs/images/top-donors.png)
+![Top Donors Chart]()
 
 A horizontal bar chart ranking the **top 10 donor organizations** by total disbursements within the current filters. Color-coded bars make rank comparisons immediate. Pair this with the *Donor Country* filter to answer questions like:
 
 > *"What are the top donors based out of the United Kingdom?"*
+> *"How does climate funding compare to humanitarian aid?"*
 
 ---
 
 ### Sector Breakdown
 
-![Sector Breakdown](docs/images/sector-breakdown.png)
+![Sector Breakdown]()
 
 Switch the left panel to the **Sectors** tab for a donut chart and legend showing how funding is distributed across sectors. Each wedge is labeled with its total — useful for questions like:
 
-> *"How does climate funding compare to humanitarian aid?"*
 
 ---
 
 ### Top Recipients Panel
 
-![Top Recipients Chart](docs/images/top-recipients.png)
+![Top Recipients Chart]()
 
 A horizontal bar chart on the right showing the **top 10 recipient countries** by total funding received, colored on a teal gradient from highest to lowest. Pair with the *Sector* filter to answer:
 
@@ -91,7 +120,7 @@ A horizontal bar chart on the right showing the **top 10 recipient countries** b
 
 ### Country Detail Panel
 
-![Country Detail Panel](docs/images/country-detail.png)
+![Country Detail Panel]()
 
 Click any country on the map to replace the Recipients panel with a deep-dive view for that country:
 
@@ -174,31 +203,4 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173). The dashboard will stream and parse the dataset on first load (~10–15 seconds), showing a progress bar as it goes.
 
----
 
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | React 19 + Vite |
-| Map | Mapbox GL JS 3 (choropleth via feature-state) |
-| Charts | Recharts (BarChart, AreaChart, PieChart) |
-| Data parsing | PapaParse (streaming CSV) |
-
----
-
-## Project Structure
-
-```
-scaffol/
-├── src/
-│   ├── App.jsx          # Main dashboard — all state, filters, and layout
-│   ├── App.css          # Dark theme styles
-│   └── utils/
-│       └── countryToIso.js  # Country name → ISO-3 mapping for map coloring
-├── data/                # (gitignored) OECD CSV + GeoJSON
-├── public/
-├── index.html
-├── vite.config.js       # Custom middleware to serve data/ directory
-└── .env.example         # Token template
-```
