@@ -107,7 +107,7 @@ export default function App() {
             region: (r.region_macro || '').trim(),
             donorCountry: (r.Donor_country || '').trim(),
             amount,
-            sector: (r.sector_description || 'Unspecified').trim(),
+            sector: (r.sector_description || 'Unspecified').split(';')[0].trim(),
             subsector: (r.subsector_description || '').trim(),
           })
         }
