@@ -76,7 +76,6 @@ Open [http://localhost:5173](http://localhost:5173). The dashboard will stream a
 
 The central map colors every country by the volume of philanthropy it has **received** or **donated**, on a logarithmic teal gradient. The map responds in real time to every filter you apply.
 
-![Choropleth Map]()
 
 - **Received / Donated toggle** — flip the map between showing where money flows *to* vs. where it originates *from*
 - **Hover tooltip** — hover any country to see its name and total funding at a glance
@@ -86,7 +85,6 @@ The central map colors every country by the volume of philanthropy it has **rece
 
 ### Filter Bar
 
-![Filter Bar]()
 
 Five controls that filter every element of the dashboard simultaneously:
 
@@ -152,7 +150,6 @@ Click the country badge or the ✕ button to return to the global view.
 
 ### Funding Over Time
 
-![Trend Chart](docs/images/trend-chart.png)
 
 An area chart at the bottom left shows **annual disbursements** across all selected filters. Watch how a single sector's funding has grown or shrunk over the years — useful for questions like:
 
@@ -162,7 +159,6 @@ An area chart at the bottom left shows **annual disbursements** across all selec
 
 ### Funding by Region
 
-![Region Chart](docs/images/region-chart.png)
 
 A bar chart beside the trend view breaks total funding down by **macro-region** (Africa, Asia, Europe, etc.), showing at a glance which parts of the world attract the most philanthropic capital under the current filter set.
 
@@ -189,7 +185,9 @@ All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.
 - **Geographies:** 150+ recipient countries across all continents
 - **Metrics:** Deflated USD disbursements and commitments
 
+> *Some data has been cleaned to make the interface more friendly and easy to read. 
 > The raw data file is excluded from this repository (see `.gitignore`). Place it at `scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv` before running locally.
+
 
 ---
 
