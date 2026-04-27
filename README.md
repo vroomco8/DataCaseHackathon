@@ -1,8 +1,8 @@
 # 🌍 Global Philanthropy Intelligence
 
 > An interactive dashboard for policymakers and foundation leaders to explore global development funding patterns — built on OECD disbursement data.
+> [Varun Chakka, Arjun Mittal, Richard Li]
 
-![Dashboard Overview]()
 
 ---
 
@@ -31,6 +31,33 @@ scaffol/
 ```
 
 ---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- A [Mapbox access token](https://account.mapbox.com/access-tokens/)
+
+### Setup
+
+```bash
+# 1. Install dependencies
+cd scaffol
+npm install
+
+# 2. Add your Mapbox token
+cp .env.example .env
+# Edit .env and paste your token as VITE_MAPBOX_ACCESS_TOKEN
+
+# 3. Place the data file at:
+    scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv
+
+# 4. Start the dev server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). The dashboard will stream and parse the dataset on first load (~10–15 seconds), showing a progress bar as it goes.
 
 ## Tech Stack
 
@@ -77,8 +104,6 @@ A **Clear Filters** button appears whenever any filter is active, resetting ever
 
 ### KPI Header Cards
 
-![KPI Cards]()
-
 Four live statistics sit in the header and update as filters change:
 
 - **Total Funding** — sum of all disbursements in the current view (displayed in $K / $M / $B)
@@ -90,8 +115,6 @@ Four live statistics sit in the header and update as filters change:
 
 ### Top Donors Panel
 
-![Top Donors Chart]()
-
 A horizontal bar chart ranking the **top 10 donor organizations** by total disbursements within the current filters. Color-coded bars make rank comparisons immediate. Pair this with the *Donor Country* filter to answer questions like:
 
 > *"What are the top donors based out of the United Kingdom?"*
@@ -101,16 +124,12 @@ A horizontal bar chart ranking the **top 10 donor organizations** by total disbu
 
 ### Sector Breakdown
 
-![Sector Breakdown]()
-
 Switch the left panel to the **Sectors** tab for a donut chart and legend showing how funding is distributed across sectors. Each wedge is labeled with its total — useful for questions like:
 
 
 ---
 
 ### Top Recipients Panel
-
-![Top Recipients Chart]()
 
 A horizontal bar chart on the right showing the **top 10 recipient countries** by total funding received, colored on a teal gradient from highest to lowest. Pair with the *Sector* filter to answer:
 
@@ -119,8 +138,6 @@ A horizontal bar chart on the right showing the **top 10 recipient countries** b
 ---
 
 ### Country Detail Panel
-
-![Country Detail Panel]()
 
 Click any country on the map to replace the Recipients panel with a deep-dive view for that country:
 
@@ -175,32 +192,5 @@ All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.
 > The raw data file is excluded from this repository (see `.gitignore`). Place it at `scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv` before running locally.
 
 ---
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- A [Mapbox access token](https://account.mapbox.com/access-tokens/)
-
-### Setup
-
-```bash
-# 1. Install dependencies
-cd scaffol
-npm install
-
-# 2. Add your Mapbox token
-cp .env.example .env
-# Edit .env and paste your token as VITE_MAPBOX_ACCESS_TOKEN
-
-# 3. Place the data file at:
-#    scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv
-
-# 4. Start the dev server
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173). The dashboard will stream and parse the dataset on first load (~10–15 seconds), showing a progress bar as it goes.
 
 
