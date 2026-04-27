@@ -22,6 +22,50 @@ const CHOROPLETH_STOPS = [
   [4.0, '#5eead4'],
 ]
 
+// ── Tour Steps ────────────────────────────────────────────────────────────
+const TOUR_STEPS = [
+  {
+    title: '🌍 Welcome to Global Philanthropy Intelligence',
+    description: 'This dashboard lets you explore $68B+ in global development funding from the OECD dataset. Policymakers and foundation leaders can instantly filter, compare, and drill into funding patterns across the world.',
+    highlight: null,
+  },
+  {
+    title: '📊 KPI Header',
+    description: 'These four cards at the top always show live stats — total funding, number of grants, unique donors, and recipient countries — all updating instantly as you apply filters.',
+    highlight: 'kpi-bar',
+  },
+  {
+    title: '🎛️ Filter Bar',
+    description: 'Use these controls to narrow the data by year range, sector (e.g. Health, Climate), donor country, or recipient region. Every chart and map updates simultaneously. Hit "Clear Filters" to reset.',
+    highlight: 'filter-bar',
+  },
+  {
+    title: '🗺️ Interactive Map',
+    description: 'The choropleth map colors countries by funding volume. Toggle between "Received" and "Donated" views. Hover any country to see its total, and click to open a full country breakdown panel.',
+    highlight: 'map-wrap',
+  },
+  {
+    title: '🏆 Top Donors & Sectors',
+    description: 'The left panel ranks the top 10 donor organizations by disbursements. Switch to the Sectors tab to see a donut chart of how funding is split across areas like Health, Education, and Emergency Response.',
+    highlight: 'left-panel',
+  },
+  {
+    title: '🌐 Top Recipients',
+    description: 'The right panel shows the top 10 recipient countries. Click any country on the map to replace this with a deep-dive: their top donors, sector breakdown, and year-over-year trend.',
+    highlight: 'right-panel',
+  },
+  {
+    title: '📈 Trend & Region Charts',
+    description: 'The bottom row shows funding over time (great for spotting growth or decline) and a breakdown by macro-region. These also react to all your active filters.',
+    highlight: 'trend-row',
+  },
+  {
+    title: '💬 AI Assistant',
+    description: 'See the chat bubble in the bottom-right corner? Click it anytime to ask questions about how to use the dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"',
+    highlight: 'chatbot-btn',
+  },
+]
+
 function fmt(val) {
   if (val >= 1000) return `$${(val / 1000).toFixed(1)}B`
   if (val >= 1) return `$${val.toFixed(1)}M`
@@ -63,6 +107,153 @@ const CustomBarTooltip = ({ active, payload }) => {
   )
 }
 
+// ── Tour Modal ────────────────────────────────────────────────────────────
+function TourModal({ onClose, onFinish }) {
+  const [step, setStep] = useState(0)
+  const current = TOUR_STEPS[step]
+  const isLast = step === TOUR_STEPS.length - 1
+
+  const next = () => isLast ? onFinish() : setStep(s => s + 1)
+  const prev = () => setStep(s => s - 1)
+
+  return (
+    <div className="tour-overlay">
+      <div className="tour-modal">
+        <button className="tour-skip" onClick={onClose}>Skip Tour</button>
+        <div className="tour-step-indicator">
+          {TOUR_STEPS.map((_, i) => (
+            <span key={i} className={`tour-dot ${i === step ? 'active' : i < step ? 'done' : ''}`} onClick={() => setStep(i)} />
+          ))}
+        </div>
+        <div className="tour-icon">{current.title.split(' ')[0]}</div>
+        <h2 className="tour-title">{current.title.slice(current.title.indexOf(' ') + 1)}</h2>
+        <p className="tour-desc">{current.description}</p>
+        <div className="tour-actions">
+          {step > 0 && <button className="tour-btn secondary" onClick={prev}>← Back</button>}
+          <button className="tour-btn primary" onClick={next}>
+            {isLast ? '🚀 Start Exploring' : 'Next →'}
+          </button>
+        </div>
+        <p className="tour-progress">Step {step + 1} of {TOUR_STEPS.length}</p>
+      </div>
+    </div>
+  )
+}
+
+// ── Chatbot ───────────────────────────────────────────────────────────────
+const SYSTEM_PROMPT = `You are a helpful assistant for the Global Philanthropy Intelligence dashboard — an interactive tool built on OECD development finance data covering 130,000+ grants from 2020–2023.
+
+You help users navigate and get the most out of the dashboard. Here is what you know about the dashboard:
+
+FILTERS: Year From/To (2020-2023), Sector (e.g. Health, Education, General Environment Protection, Emergency Response), Donor Country, Recipient Region, and a Map toggle between Received/Donated views.
+
+KPI CARDS: Show Total Funding, Grants count, Donors count, and Countries count — all live-updating with filters.
+
+LEFT PANEL: "Top Donors" tab shows top 10 donor organizations by disbursements. "Sectors" tab shows a donut chart of funding by sector.
+
+MAP: Choropleth colored by funding volume. Hover = tooltip with amount. Click any country = opens Country Detail panel on the right with top donors, sectors, and trend for that country.
+
+RIGHT PANEL: Shows Top Recipients by default. Clicking a country on the map replaces it with a country deep-dive.
+
+BOTTOM ROW: "Funding Over Time" area chart and "Top Donors by Region" bar chart.
+
+EXAMPLE QUESTIONS YOU CAN ANSWER:
+- "How do I find top donors in the UK?" → Set Donor Country filter to United Kingdom, check Top Donors panel
+- "Which countries get the most health funding?" → Set Sector to Health, read Top Recipients panel  
+- "How do I see India's funding breakdown?" → Click India on the map
+- "How do I compare regions?" → Check the Funding by Region chart at the bottom
+
+Be concise, friendly, and always refer to specific UI elements. If asked something outside the dashboard, politely redirect.`
+
+function Chatbot() {
+  const [open, setOpen] = useState(false)
+  const [messages, setMessages] = useState([
+    { role: 'assistant', content: 'Hi! I\'m your dashboard guide. Ask me anything about how to use the Global Philanthropy Intelligence dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"' }
+  ])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const bottomRef = useRef(null)
+
+  useEffect(() => {
+    if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, open])
+
+  const send = async () => {
+    const text = input.trim()
+    if (!text || loading) return
+    setInput('')
+    const newMessages = [...messages, { role: 'user', content: text }]
+    setMessages(newMessages)
+    setLoading(true)
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+        }),
+      })
+      const data = await response.json()
+      const reply = data.content?.[0]?.text || 'Sorry, I had trouble responding. Try again!'
+      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Please try again.' }])
+    }
+    setLoading(false)
+  }
+
+  const handleKey = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
+  }
+
+  return (
+    <>
+      <button className={`chatbot-btn ${open ? 'active' : ''}`} onClick={() => setOpen(o => !o)} title="Dashboard Assistant">
+        {open ? '✕' : '💬'}
+        {!open && <span className="chatbot-badge">?</span>}
+      </button>
+
+      {open && (
+        <div className="chatbot-panel">
+          <div className="chatbot-header">
+            <span>🤖 Dashboard Assistant</span>
+            <button onClick={() => setOpen(false)}>✕</button>
+          </div>
+          <div className="chatbot-messages">
+            {messages.map((m, i) => (
+              <div key={i} className={`chat-msg ${m.role}`}>
+                <div className="chat-bubble">{m.content}</div>
+              </div>
+            ))}
+            {loading && (
+              <div className="chat-msg assistant">
+                <div className="chat-bubble chat-loading">
+                  <span /><span /><span />
+                </div>
+              </div>
+            )}
+            <div ref={bottomRef} />
+          </div>
+          <div className="chatbot-input-row">
+            <input
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Ask about the dashboard…"
+              disabled={loading}
+            />
+            <button onClick={send} disabled={loading || !input.trim()}>Send</button>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function App() {
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -83,6 +274,22 @@ export default function App() {
   const [mapView, setMapView] = useState('received')
   const [clickedCountry, setClickedCountry] = useState(null)
   const [activeTab, setActiveTab] = useState('donors')
+
+  // Tour state
+  const [showTourModal, setShowTourModal] = useState(false)
+
+  // Show tour after data loads (first visit)
+  useEffect(() => {
+    if (!loading) {
+      const hasSeenTour = localStorage.getItem('gpi_tour_seen')
+      if (!hasSeenTour) setShowTourModal(true)
+    }
+  }, [loading])
+
+  const dismissTour = () => {
+    setShowTourModal(false)
+    localStorage.setItem('gpi_tour_seen', '1')
+  }
 
   // ── Data loading ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -220,7 +427,6 @@ export default function App() {
 
   const clickedCountryData = useMemo(() => {
     if (!clickedCountry) return null
-    const rows = filteredData.filter(r => r.country === clickedCountry || r.donorCountry === clickedCountry)
     const received = filteredData.filter(r => r.country === clickedCountry)
     const given = filteredData.filter(r => r.donorCountry === clickedCountry)
 
@@ -335,7 +541,6 @@ export default function App() {
         map.setFeatureState({ source: 'countries', sourceLayer: 'country_boundaries', id: iso }, { hovered: true })
         map.getCanvas().style.cursor = 'pointer'
 
-        // Find funding for this country
         const isoToCountry = window.__isoToCountry || {}
         const countryName = isoToCountry[iso] || name
         const funding = window.__activeFunding || {}
@@ -379,7 +584,6 @@ export default function App() {
     const map = mapRef.current
     if (!map || !mapLoadedRef.current) return
 
-    // Build reverse mapping: ISO → country name for popup lookups
     const isoToCountry = {}
     Object.entries(activeFundingMap).forEach(([country, _]) => {
       const iso = getIso3(country)
@@ -388,13 +592,11 @@ export default function App() {
     window.__isoToCountry = isoToCountry
     window.__activeFunding = activeFundingMap
 
-    // Reset previously seen countries
     seenIsoCodes.current.forEach(iso => {
       map.setFeatureState({ source: 'countries', sourceLayer: 'country_boundaries', id: iso }, { logValue: 0 })
     })
     seenIsoCodes.current.clear()
 
-    // Set new values
     Object.entries(activeFundingMap).forEach(([country, amount]) => {
       const iso = getIso3(country)
       if (!iso) return
@@ -405,12 +607,9 @@ export default function App() {
   }, [activeFundingMap])
 
   useEffect(() => {
-    if (mapLoadedRef.current) {
-      updateMapColors()
-    }
+    if (mapLoadedRef.current) updateMapColors()
   }, [updateMapColors])
 
-  // Also update when map finishes loading (if data was ready first)
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
@@ -419,7 +618,6 @@ export default function App() {
     return () => map.off('styledata', handler)
   }, [updateMapColors])
 
-  // ── Render ────────────────────────────────────────────────────────────────
   const progressPct = Math.min(99, Math.round((loadProgress / totalRows) * 100))
 
   return (
@@ -439,6 +637,9 @@ export default function App() {
         </div>
       )}
 
+      {/* ── Tour Modal ── */}
+      {showTourModal && <TourModal onClose={dismissTour} onFinish={dismissTour} />}
+
       {/* ── Header ── */}
       <header className="dashboard-header">
         <div className="header-left">
@@ -448,22 +649,27 @@ export default function App() {
             <p>OECD Development Finance — {filteredData.length.toLocaleString()} grants in view</p>
           </div>
         </div>
-        <div className="kpi-bar">
-          <div className="kpi-card">
-            <span className="kpi-value">{fmtShort(stats.totalFunding)}</span>
-            <span className="kpi-label">Total Funding</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-value">{stats.grants.toLocaleString()}</span>
-            <span className="kpi-label">Grants</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-value">{stats.donors.toLocaleString()}</span>
-            <span className="kpi-label">Donors</span>
-          </div>
-          <div className="kpi-card">
-            <span className="kpi-value">{stats.recipients}</span>
-            <span className="kpi-label">Countries</span>
+        <div className="header-right">
+          <button className="tour-replay-btn" onClick={() => setShowTourModal(true)} title="Take a tour">
+            📖 Take a Tour
+          </button>
+          <div className="kpi-bar">
+            <div className="kpi-card">
+              <span className="kpi-value">{fmtShort(stats.totalFunding)}</span>
+              <span className="kpi-label">Total Funding</span>
+            </div>
+            <div className="kpi-card">
+              <span className="kpi-value">{stats.grants.toLocaleString()}</span>
+              <span className="kpi-label">Grants</span>
+            </div>
+            <div className="kpi-card">
+              <span className="kpi-value">{stats.donors.toLocaleString()}</span>
+              <span className="kpi-label">Donors</span>
+            </div>
+            <div className="kpi-card">
+              <span className="kpi-value">{stats.recipients}</span>
+              <span className="kpi-label">Countries</span>
+            </div>
           </div>
         </div>
       </header>
@@ -640,6 +846,9 @@ export default function App() {
           <RegionBreakdown filteredData={filteredData} />
         </div>
       </div>
+
+      {/* ── Chatbot ── */}
+      <Chatbot />
     </div>
   )
 }
