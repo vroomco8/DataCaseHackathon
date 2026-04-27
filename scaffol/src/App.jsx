@@ -69,6 +69,7 @@ export default function App() {
   const mapLoadedRef = useRef(false)
   const seenIsoCodes = useRef(new Set())
   const popupRef = useRef(null)
+  const mapViewRef = useRef('received')
 
   const [rawData, setRawData] = useState([])
   const [loading, setLoading] = useState(true)
@@ -81,6 +82,7 @@ export default function App() {
   const [selectedDonorCountry, setSelectedDonorCountry] = useState('All')
   const [selectedRegion, setSelectedRegion] = useState('All')
   const [mapView, setMapView] = useState('received')
+  mapViewRef.current = mapView
   const [clickedCountry, setClickedCountry] = useState(null)
   const [activeTab, setActiveTab] = useState('donors')
 
@@ -346,7 +348,7 @@ export default function App() {
           .setHTML(`
             <div class="map-popup">
               <div class="popup-country">${name}</div>
-              ${amount > 0 ? `<div class="popup-amount">${mapView === 'received' ? 'Received' : 'Donated'}: <strong>${fmt(amount)}</strong></div>` : '<div class="popup-no-data">No data in current filters</div>'}
+              ${amount > 0 ? `<div class="popup-amount">${mapViewRef.current === 'received' ? 'Received' : 'Donated'}: <strong>${fmt(amount)}</strong></div>` : '<div class="popup-no-data">No data in current filters</div>'}
             </div>
           `)
           .addTo(map)
