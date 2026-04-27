@@ -72,6 +72,17 @@ export const COUNTRY_TO_ISO3 = {
   // Regional/special
   'Kosovo under UNSCR 1244': 'XKX',
   "Democratic People's Republic of Korea": 'PRK',
+  // OECD-specific name variants
+  "China (People's Republic of)": 'CHN',
+  "Türkiye": 'TUR',
+  "Lao People's Democratic Republic": 'LAO',
+  "West Bank and Gaza Strip": 'PSE',
+  "São Tomé and Príncipe": 'STP',
+  "Côte d’Ivoire": 'CIV',  // right single quotation mark variant
+  "Saint Helena": 'SHN',
+  "Saint Lucia": 'LCA',
+  "Saint Vincent and the Grenadines": 'VCT',
+  "Hirshabelle": 'SOM',          // Somali federal state → Somalia
 }
 
 export function getIso3(countryName) {

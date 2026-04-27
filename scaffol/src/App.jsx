@@ -220,9 +220,9 @@ export default function App() {
 
   const clickedCountryData = useMemo(() => {
     if (!clickedCountry) return null
-    const rows = filteredData.filter(r => r.country === clickedCountry || r.donorCountry === clickedCountry)
-    const received = filteredData.filter(r => r.country === clickedCountry)
-    const given = filteredData.filter(r => r.donorCountry === clickedCountry)
+    const { displayName, iso } = clickedCountry
+    const received = filteredData.filter(r => getIso3(r.country) === iso)
+    const given = filteredData.filter(r => getIso3(r.donorCountry) === iso)
 
     const topDonorsForCountry = {}
     received.forEach(r => { topDonorsForCountry[r.org] = (topDonorsForCountry[r.org] || 0) + r.amount })
@@ -242,7 +242,7 @@ export default function App() {
       .map(([year, amount]) => ({ year: parseInt(year), amount }))
 
     return {
-      country: clickedCountry,
+      country: displayName,
       totalReceived: received.reduce((s, r) => s + r.amount, 0),
       totalGiven: given.reduce((s, r) => s + r.amount, 0),
       grantCount: received.length,
@@ -364,7 +364,8 @@ export default function App() {
       map.on('click', 'countries-fill', (e) => {
         if (!e.features.length) return
         const name = e.features[0].properties.name_en
-        setClickedCountry(prev => prev === name ? null : name)
+        const iso = e.features[0].properties.iso_3166_1_alpha_3
+        setClickedCountry(prev => prev?.iso === iso ? null : { displayName: name, iso })
       })
     })
 
@@ -577,7 +578,7 @@ export default function App() {
             </div>
           </div>
           {clickedCountry && (
-            <button className="map-close-country" onClick={() => setClickedCountry(null)}>✕ {clickedCountry}</button>
+            <button className="map-close-country" onClick={() => setClickedCountry(null)}>✕ {clickedCountry.displayName}</button>
           )}
         </div>
 
