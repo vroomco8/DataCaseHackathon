@@ -77,13 +77,17 @@ Open [http://localhost:5173](http://localhost:5173). The dashboard will stream a
 
 ### Guided Tour
 
+<img width="461" height="343" alt="image" src="https://github.com/user-attachments/assets/7b640876-7a4f-4ea4-88d8-172b4dee8b91" />
+
+
 On first load, a step-by-step tour walks through every section of the dashboard — the KPI cards, filter bar, map, donor/recipient panels, trend charts, and the AI assistant. Each step highlights the relevant UI area and explains what it does. The tour can be replayed at any time via the **📖 Take a Tour** button in the header.
 
 ---
 
 ### AI Dashboard Assistant
 
-![AI Assistant]
+<img width="329" height="439" alt="image" src="https://github.com/user-attachments/assets/86f9c63a-73b5-4d04-a2b7-4f5a644de87e" />
+
 
 A **💬 chat button** in the top-right of the header opens an AI assistant powered by Claude. Ask it anything about how to use the dashboard:
 
@@ -97,6 +101,8 @@ The assistant knows the full layout and filter system, and always directs you to
 
 ### Interactive Choropleth Map
 
+<img width="1316" height="651" alt="image" src="https://github.com/user-attachments/assets/84dfe134-04ea-4044-ac0c-e99ebc104021" />
+
 The central map colors every country by the volume of philanthropy it has **received** or **donated**, on a logarithmic teal gradient. The map responds in real time to every filter you apply.
 
 
@@ -107,6 +113,8 @@ The central map colors every country by the volume of philanthropy it has **rece
 ---
 
 ### Filter Bar
+
+<img width="1296" height="37" alt="image" src="https://github.com/user-attachments/assets/13d34105-8118-4b2c-af8a-b58535c659c1" />
 
 
 Five controls that filter every element of the dashboard simultaneously:
@@ -125,6 +133,9 @@ A **Clear Filters** button appears whenever any filter is active, resetting ever
 
 ### KPI Header Cards
 
+<img width="373" height="58" alt="image" src="https://github.com/user-attachments/assets/7df394a9-d9c6-474d-a1b5-08ff43f949b8" />
+
+
 Four live statistics sit in the header and update as filters change:
 
 - **Total Funding** — sum of all disbursements in the current view (displayed in $K / $M / $B)
@@ -136,6 +147,8 @@ Four live statistics sit in the header and update as filters change:
 
 ### Top Donors Panel
 
+<img width="296" height="399" alt="image" src="https://github.com/user-attachments/assets/d343879c-1069-4a27-803d-f16ee5a4560f" />
+
 A horizontal bar chart ranking the **top 10 donor organizations** by total disbursements within the current filters. Color-coded bars make rank comparisons immediate. Pair this with the *Donor Country* filter to answer questions like:
 
 > *"What are the top donors based out of the United Kingdom?"*
@@ -145,8 +158,10 @@ A horizontal bar chart ranking the **top 10 donor organizations** by total disbu
 
 ### Sector Breakdown
 
-Switch the left panel to the **Sectors** tab for a donut chart and legend showing how funding is distributed across sectors. Each wedge is labeled with its total — useful for questions like:
+<img width="300" height="432" alt="image" src="https://github.com/user-attachments/assets/1024dd33-03dd-464e-96f2-5135b8fc4ec6" />
 
+
+Switch the left panel to the **Sectors** tab for a donut chart and legend showing how funding is distributed across sectors. Each wedge is labeled with its total — useful for questions like:
 
 ---
 
@@ -160,7 +175,11 @@ A horizontal bar chart on the right showing the **top 10 recipient countries** b
 
 ### Country Detail Panel
 
+<img width="295" height="445" alt="image" src="https://github.com/user-attachments/assets/6ae44a20-8656-4b9d-9b62-fc370b9f85fc" />
+
 Click any country on the map to replace the Recipients panel with a deep-dive view for that country:
+
+<img width="1242" height="662" alt="image" src="https://github.com/user-attachments/assets/78ec808f-901c-4f57-8175-33584a0619ae" />
 
 - **Total Received** and **Total Donated** (if applicable)
 - **Top 5 donor organizations** funding that country
@@ -173,6 +192,7 @@ Click the country badge or the ✕ button to return to the global view.
 
 ### Funding Over Time
 
+<img width="954" height="193" alt="image" src="https://github.com/user-attachments/assets/0e292747-fa6c-4c06-9c28-a3dc99db662e" />
 
 An area chart at the bottom left shows **annual disbursements** across all selected filters. Watch how a single sector's funding has grown or shrunk over the years — useful for questions like:
 
@@ -182,6 +202,7 @@ An area chart at the bottom left shows **annual disbursements** across all selec
 
 ### Funding by Region
 
+<img width="953" height="191" alt="image" src="https://github.com/user-attachments/assets/bcdfe178-d9bd-43af-a5f8-5b5d9059bdf6" />
 
 A bar chart beside the trend view breaks total funding down by **macro-region** (Africa, Asia, Europe, etc.), showing at a glance which parts of the world attract the most philanthropic capital under the current filter set.
 
@@ -210,8 +231,6 @@ All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.
 
 > *Some data has been cleaned to make the interface more friendly and easy to read. 
 > The raw data file is excluded from this repository (see `.gitignore`). Place it at `scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv` before running locally.
-
-
 ---
 
 
