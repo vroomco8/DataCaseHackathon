@@ -120,6 +120,24 @@ An area chart at the bottom left shows **annual disbursements** across all selec
 
 A bar chart beside the trend view breaks total funding down by **macro-region** (Africa, Asia, Europe, etc.), showing at a glance which parts of the world attract the most philanthropic capital under the current filter set.
 
+### Guided Tour
+
+On first load, a step-by-step tour walks through every section of the dashboard — the KPI cards, filter bar, map, donor/recipient panels, trend charts, and the AI assistant. Each step highlights the relevant UI area and explains what it does. The tour can be replayed at any time via the **📖 Take a Tour** button in the header.
+
+---
+
+### AI Dashboard Assistant
+
+![AI Assistant](docs/images/ai-assistant.png)
+
+A **💬 chat button** in the top-right of the header opens an AI assistant powered by Claude. Ask it anything about how to use the dashboard:
+
+> *"How do I find the top donors in the UK?"*
+> *"How do I compare funding across regions?"*
+> *"What does the Donated map view show?"*
+
+The assistant knows the full layout and filter system, and always directs you to the specific UI element that answers your question. The API key is handled server-side via a Vite proxy — it is never exposed in the browser.
+
 ---
 
 ## Example Questions You Can Answer
@@ -153,6 +171,7 @@ All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.
 
 - Node.js 18+
 - A [Mapbox access token](https://account.mapbox.com/access-tokens/)
+- An [Anthropic API key](https://console.anthropic.com/) (for the AI assistant)
 
 ### Setup
 
@@ -161,9 +180,11 @@ All data comes from the **OECD Development Finance dataset** (`complete_p4d3_df.
 cd scaffol
 npm install
 
-# 2. Add your Mapbox token
+# 2. Add your tokens
 cp .env.example .env
-# Edit .env and paste your token as VITE_MAPBOX_ACCESS_TOKEN
+# Edit .env and set:
+#   VITE_MAPBOX_ACCESS_TOKEN=your_mapbox_token
+#   ANTHROPIC_API_KEY=your_anthropic_key   ← server-side only, never sent to browser
 
 # 3. Place the data file at:
 #    scaffol/data/OECD Dataset.xlsx - complete_p4d3_df.csv
@@ -184,6 +205,7 @@ Open [http://localhost:5173](http://localhost:5173). The dashboard will stream a
 | Map | Mapbox GL JS 3 (choropleth via feature-state) |
 | Charts | Recharts (BarChart, AreaChart, PieChart) |
 | Data parsing | PapaParse (streaming CSV) |
+| AI assistant | Claude (`claude-sonnet-4-6`) via server-side Vite proxy |
 
 ---
 
