@@ -61,7 +61,7 @@ const TOUR_STEPS = [
   },
   {
     title: '💬 AI Assistant',
-    description: 'See the chat bubble in the bottom-right corner? Click it anytime to ask questions about how to use the dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"',
+    description: 'See the chat bubble in the top-right corner? Click it anytime to ask questions about how to use the dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"',
     highlight: 'chatbot-btn',
   },
 ]
@@ -141,7 +141,7 @@ function TourModal({ onClose, onFinish }) {
 }
 
 // ── Chatbot ───────────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are a helpful assistant for the Global Philanthropy Intelligence dashboard — an interactive tool built on OECD development finance data covering 130,000+ grants from 2020–2023.
+const SYSTEM_PROMPT = `You are a helpful, concise assistant for the Global Philanthropy Intelligence dashboard — an interactive tool built on OECD development finance data covering 130,000+ grants from 2020–2023.
 
 You help users navigate and get the most out of the dashboard. Here is what you know about the dashboard:
 
@@ -168,7 +168,7 @@ Be concise, friendly, and always refer to specific UI elements. If asked somethi
 function Chatbot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi! I\'m your dashboard guide. Ask me anything about how to use the Global Philanthropy Intelligence dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"' }
+    { role: 'assistant', content: 'Hi! I\'m your dashboard guide. Ask me anything about how to use the GPI dashboard — like "how do I find top donors in the UK?" or "how do I compare sectors?"' }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -187,11 +187,11 @@ function Chatbot() {
     setLoading(true)
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 1000,
           system: SYSTEM_PROMPT,
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
@@ -214,7 +214,6 @@ function Chatbot() {
     <>
       <button className={`chatbot-btn ${open ? 'active' : ''}`} onClick={() => setOpen(o => !o)} title="Dashboard Assistant">
         {open ? '✕' : '💬'}
-        {!open && <span className="chatbot-badge">?</span>}
       </button>
 
       {open && (
@@ -671,6 +670,7 @@ export default function App() {
               <span className="kpi-label">Countries</span>
             </div>
           </div>
+          <Chatbot />
         </div>
       </header>
 
@@ -847,8 +847,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* ── Chatbot ── */}
-      <Chatbot />
     </div>
   )
 }
